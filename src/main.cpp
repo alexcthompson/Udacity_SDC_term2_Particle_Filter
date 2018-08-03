@@ -65,7 +65,6 @@ int main()
                 if (event == "telemetry") {
                     // j[1] is the data JSON object
 
-
                     if (!pf.initialized()) {
 
                         // Sense noisy position data from the simulator

@@ -10,6 +10,7 @@
 #define PARTICLE_FILTER_H_
 
 #include "helper_functions.h"
+#include <random>
 
 struct Particle {
 
@@ -40,6 +41,9 @@ public:
 	
 	// Set of current particles
 	std::vector<Particle> particles;
+
+	// Convenience random number generator
+	std::default_random_engine generator;
 
 	// Constructor
 	// @param num_particles Number of particles
@@ -76,7 +80,12 @@ public:
 	 * @param predicted Vector of predicted landmark observations
 	 * @param observations Vector of landmark observations
 	 */
-	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
+	void dataAssociation(std::vector<LandmarkObs> predicted,
+                         std::vector<LandmarkObs>& observations,
+                         std::vector<double>& distances,
+                         std::vector<int>& associations,
+                         std::vector<double>& sense_x,
+                         std::vector<double>& sense_y);
 	
 	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 
@@ -99,8 +108,8 @@ public:
 	 * Set a particles list of associations, along with the associations calculated world x,y coordinates
 	 * This can be a very useful debugging tool to make sure transformations are correct and assocations correctly connected
 	 */
-	Particle SetAssociations(Particle& particle, const std::vector<int>& associations,
-		                     const std::vector<double>& sense_x, const std::vector<double>& sense_y);
+	void SetAssociations(Particle& particle, const std::vector<int> associations,
+		                 const std::vector<double> sense_x, const std::vector<double> sense_y);
 
 	
 	std::string getAssociations(Particle best);
